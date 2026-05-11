@@ -1,0 +1,641 @@
+Linux is a multi-user operating system.
+
+The shell provides a command-line interface for interacting with the operating system.
+
+Common shell commands:
+
+ls - list directory contents
+cd - change directory
+pwd - print working directory
+mkdir - create directory
+rm - remove files
+cp - copy files
+mv - move files
+
+A process is an instance of a running program.
+
+Memory management is handled by the operating system kernel.
+
+The kernel controls:
+- scheduling
+- memory allocation
+- device communication
+- filesystem access
+
+Python is an interpreted programming language.
+
+PyTorch is a machine learning framework built on tensor operations.
+
+A tensor is a multidimensional array.
+
+Transformers use self-attention mechanisms to process sequences.
+
+In autoregressive language modeling, the model predicts the next token in a sequence.
+
+Example:
+
+Input:
+The cat sat on the
+
+Target:
+mat
+
+The CPU executes instructions stored in memory.
+
+Caches reduce memory access latency.
+
+Virtual memory allows processes to use more memory than physically available.
+
+Git is a distributed version control system.
+
+A commit represents a snapshot of repository state.
+
+Branches allow parallel development workflows.
+
+The terminal can be used to:
+- compile code
+- inspect logs
+- manage files
+- execute scripts
+- interact with remote systems
+
+Machine learning models learn patterns from data.
+
+Gradient descent minimizes loss functions.
+
+Backpropagation computes gradients through the chain rule.
+
+Neural networks are composed of layers of mathematical operations.
+
+The attention mechanism computes relationships between tokens in a sequence.
+
+Tokenization converts text into discrete symbols.
+
+Embedding layers convert token IDs into learned vector representations.
+
+A transformer block commonly contains:
+- self-attention
+- feed-forward network
+- residual connections
+- layer normalization
+
+Context windows determine how many previous tokens the model can observe.
+
+Large language models are trained on massive text corpora.
+
+Inference is the process of generating outputs from a trained model.
+
+Training requires:
+- datasets
+- optimization
+- compute resources
+- parameter updates
+
+Machine learning is the process of creating systems that improve their behavior by learning patterns from data instead of relying entirely on manually written rules.
+
+Traditional programming works like this:
+
+Input + Rules -> Output
+
+Machine learning works like this:
+
+Input + Correct Outputs -> Learned Rules
+
+A machine learning model is a mathematical function with adjustable parameters.
+
+Training is the process of adjusting those parameters so the model produces more accurate outputs.
+
+A dataset is a collection of examples used during training.
+
+Each example usually contains:
+- input data
+- expected output data
+
+Example:
+
+Input:
+"The sky is blue"
+
+Expected Output:
+"blue"
+
+The model learns statistical relationships between tokens, words, or features.
+
+A parameter is a numerical value inside the model that changes during learning.
+
+Modern neural networks often contain millions or billions of parameters.
+
+A neural network is composed of layers.
+
+Each layer transforms data into another representation.
+
+Early layers may learn simple patterns.
+
+Deeper layers may learn abstract relationships.
+
+A tensor is a multidimensional numerical array.
+
+Examples:
+
+Scalar:
+5
+
+Vector:
+[1, 2, 3]
+
+Matrix:
+[
+  [1, 2],
+  [3, 4]
+]
+
+3D Tensor:
+A stack of matrices.
+
+PyTorch represents nearly everything as tensors.
+
+Machine learning models operate primarily through tensor operations.
+
+An embedding is a learned vector representation of a token.
+
+Words with similar meanings may develop similar embeddings.
+
+Example:
+
+king -> [0.1, 0.8, ...]
+queen -> [0.12, 0.79, ...]
+
+Distance in vector space can represent semantic similarity.
+
+Natural language processing focuses on understanding and generating human language.
+
+A tokenizer converts raw text into tokens.
+
+Tokens may represent:
+- characters
+- words
+- subwords
+- symbols
+
+Character tokenizer example:
+
+"cat" -> ['c', 'a', 't']
+
+Subword tokenizer example:
+
+"running" -> ["run", "ning"]
+
+A vocabulary is the complete set of known tokens.
+
+Each token is mapped to a unique integer ID.
+
+Example:
+
+{
+  "hello": 0,
+  "world": 1
+}
+
+Encoded text:
+"hello world" -> [0, 1]
+
+Language models predict the next token in a sequence.
+
+Example:
+
+Input:
+"The computer is"
+
+Prediction:
+"running"
+
+This process is called autoregressive generation.
+
+The model repeatedly predicts one token at a time.
+
+Transformer models process tokens using self-attention.
+
+Self-attention allows tokens to examine relationships with previous tokens.
+
+Example:
+
+"The animal did not cross the street because it was tired."
+
+The word "it" depends on understanding previous words.
+
+Attention helps the model determine which earlier tokens matter most.
+
+Attention produces weighted relationships between tokens.
+
+Important tokens receive stronger attention scores.
+
+Transformers process sequences in parallel during training.
+
+This made them significantly more efficient than older recurrent architectures.
+
+A transformer block commonly contains:
+- self-attention
+- feed-forward network
+- residual connection
+- layer normalization
+
+Residual connections help gradients flow through deep networks.
+
+Layer normalization stabilizes activations during training.
+
+The feed-forward network applies nonlinear transformations to each token representation.
+
+Training uses a loss function.
+
+Loss measures prediction error.
+
+Example:
+- low loss means accurate predictions
+- high loss means inaccurate predictions
+
+Cross entropy loss is commonly used for language models.
+
+Optimization algorithms reduce loss over time.
+
+Gradient descent adjusts parameters in the direction that reduces error.
+
+Backpropagation computes gradients through the chain rule from calculus.
+
+A gradient measures how much a parameter influences the loss.
+
+The learning rate controls update size during optimization.
+
+Too small:
+- training becomes slow
+
+Too large:
+- training becomes unstable
+
+Epoch:
+One full pass through the dataset.
+
+Batch:
+A small subset of training examples processed together.
+
+Mini-batch training improves efficiency on GPUs.
+
+GPUs accelerate matrix and tensor operations through parallel computation.
+
+CUDA is NVIDIA's GPU computing platform.
+
+Apple Silicon uses Metal Performance Shaders instead of CUDA.
+
+Overfitting occurs when a model memorizes training data instead of learning general patterns.
+
+Underfitting occurs when the model is too weak to capture meaningful patterns.
+
+Generalization is the ability to perform well on unseen data.
+
+Inference is the process of running a trained model to generate outputs.
+
+Quantization reduces numerical precision to shrink model size and improve inference speed.
+
+Context window:
+The number of tokens the model can observe simultaneously.
+
+Longer context windows require more memory and computation.
+
+Attention complexity grows quadratically with sequence length.
+
+This becomes expensive for very large contexts.
+
+Fine-tuning modifies a pretrained model on specialized datasets.
+
+Pretraining teaches broad statistical language patterns.
+
+Fine-tuning specializes the model for a task or domain.
+
+Examples:
+- coding assistant
+- chatbot
+- medical assistant
+- terminal helper
+
+Reinforcement learning uses rewards instead of explicit correct answers.
+
+The system learns behaviors that maximize reward signals.
+
+Large language models are trained on massive corpora containing:
+- books
+- code
+- documentation
+- websites
+- conversations
+- research papers
+
+Scaling laws show that larger models and datasets often improve performance predictably.
+
+Emergent behavior refers to capabilities that appear unexpectedly as models scale.
+
+Examples:
+- reasoning
+- translation
+- summarization
+- code generation
+
+A checkpoint is a saved snapshot of model parameters.
+
+Training can resume from checkpoints after interruption.
+
+Inference engines optimize model execution for lower latency and memory usage.
+
+Examples:
+- llama.cpp
+- vLLM
+- TensorRT
+
+Offline local models prioritize:
+- privacy
+- low latency
+- self-contained execution
+- reduced infrastructure dependence
+
+Terminal AI systems commonly include:
+- tokenizer
+- context manager
+- inference engine
+- prompt formatter
+- command parser
+- streaming output system
+
+An LLM does not understand language like a human.
+
+It learns extremely complex statistical structures over token sequences.
+
+Despite this, sufficiently large models can produce highly coherent and useful outputs.
+
+Modern AI systems combine:
+- mathematics
+- optimization
+- computer architecture
+- distributed systems
+- statistics
+- linguistics
+- software engineering
+
+Deep learning is a subset of machine learning focused on large neural networks with many layers.
+
+The term "deep" refers to network depth.
+
+Depth allows models to learn hierarchical representations.
+
+Example:
+- early layers may detect characters
+- middle layers may detect words
+- deeper layers may detect meaning or structure
+
+Parameters are adjusted during training through optimization.
+
+A model begins with random parameter values.
+
+Initially, predictions are nearly meaningless.
+
+Training gradually shapes parameter values into useful statistical structures.
+
+Neural networks are function approximators.
+
+They learn mappings between inputs and outputs.
+
+A neuron computes:
+- weighted sum
+- bias addition
+- nonlinear activation
+
+Activation functions introduce nonlinearity.
+
+Without nonlinearity, deep networks collapse into simple linear transformations.
+
+Common activation functions:
+- ReLU
+- GELU
+- Sigmoid
+- Tanh
+
+ReLU:
+f(x) = max(0, x)
+
+GELU is commonly used in transformers.
+
+The forward pass computes predictions from input data.
+
+The backward pass computes gradients for parameter updates.
+
+Backpropagation propagates error information backward through the network.
+
+The chain rule from calculus enables gradient computation across many layers.
+
+Vanishing gradients occur when gradients become extremely small in deep networks.
+
+Exploding gradients occur when gradients become excessively large.
+
+Modern architectures use normalization and residual connections to stabilize training.
+
+A residual connection adds earlier activations back into later outputs.
+
+This helps preserve information flow across deep networks.
+
+Optimization landscapes contain many local minima and saddle points.
+
+Training attempts to move parameters toward lower-loss regions.
+
+Stochastic gradient descent estimates gradients using random mini-batches.
+
+Adam optimizer improves training stability through adaptive learning rates.
+
+Language models learn probability distributions over token sequences.
+
+Example:
+
+P("world" | "hello")
+
+The model estimates how likely a token is given previous context.
+
+Softmax converts logits into probabilities.
+
+Logits are unnormalized prediction scores.
+
+Softmax ensures probabilities sum to 1.
+
+Temperature controls randomness during generation.
+
+Low temperature:
+- deterministic
+- repetitive
+- conservative outputs
+
+High temperature:
+- diverse
+- creative
+- unstable outputs
+
+Sampling strategies include:
+- greedy decoding
+- top-k sampling
+- nucleus sampling
+
+Greedy decoding always chooses the highest-probability token.
+
+Top-k sampling limits choices to the top k candidates.
+
+Nucleus sampling selects from a probability mass threshold.
+
+Embedding spaces often develop meaningful geometric relationships.
+
+Example:
+vector("king") - vector("man") + vector("woman")
+approximately equals:
+vector("queen")
+
+Sequence length strongly affects memory usage.
+
+Attention requires comparing tokens against other tokens in the context window.
+
+Transformer attention complexity grows approximately as:
+O(n^2)
+
+Long contexts become computationally expensive.
+
+Multi-head attention allows models to learn different relationship types simultaneously.
+
+Different heads may specialize in:
+- syntax
+- positional relationships
+- semantic associations
+- long-range dependencies
+
+Positional embeddings provide token order information.
+
+Without positional encoding, transformers would not understand sequence order.
+
+A causal mask prevents future-token visibility during training.
+
+This ensures autoregressive behavior.
+
+The model cannot cheat by reading future tokens.
+
+Pretraining often uses unsupervised learning.
+
+The model learns from raw text without manually labeled outputs.
+
+Fine-tuning adapts pretrained models to specialized tasks.
+
+Transfer learning allows smaller datasets to achieve strong results using pretrained foundations.
+
+Scaling laws suggest performance improves with:
+- more parameters
+- more compute
+- more data
+
+Inference latency measures response generation speed.
+
+Throughput measures how many tokens or requests can be processed over time.
+
+Quantization reduces precision:
+- FP32
+- FP16
+- INT8
+- 4-bit formats
+
+Lower precision reduces memory usage and increases speed.
+
+Distributed training splits computation across multiple GPUs or machines.
+
+Data parallelism distributes batches across devices.
+
+Model parallelism distributes sections of the network itself.
+
+Checkpointing saves training state periodically.
+
+This includes:
+- parameters
+- optimizer state
+- training step
+- gradients
+
+Token frequency distributions in language follow Zipf's Law.
+
+A small number of words occur extremely often.
+
+Most words occur rarely.
+
+Dataset quality significantly affects model quality.
+
+Poor datasets produce:
+- hallucinations
+- instability
+- weak reasoning
+- repetitive outputs
+
+Deduplication removes repeated training data.
+
+Curriculum learning introduces simpler examples before harder examples.
+
+Regularization techniques help prevent overfitting.
+
+Examples:
+- dropout
+- weight decay
+- data augmentation
+
+Dropout randomly disables neurons during training.
+
+This encourages robust representations.
+
+Evaluation metrics for language models include:
+- perplexity
+- BLEU
+- ROUGE
+- accuracy
+
+Perplexity measures prediction uncertainty.
+
+Lower perplexity generally indicates better language modeling performance.
+
+Inference runtimes optimize tensor execution.
+
+Examples:
+- ONNX Runtime
+- TensorRT
+- llama.cpp
+
+llama.cpp focuses on efficient local CPU inference.
+
+Memory bandwidth is often a major bottleneck during inference.
+
+Large models may become memory-bound instead of compute-bound.
+
+KV cache stores previous attention states during generation.
+
+This prevents recomputation of earlier tokens.
+
+KV caching dramatically improves autoregressive inference speed.
+
+Sparse models activate only subsets of parameters per token.
+
+Mixture-of-experts architectures route tokens through specialized subnetworks.
+
+This increases parameter count without proportional compute cost.
+
+Alignment techniques attempt to shape model behavior toward desired outputs.
+
+Instruction tuning trains models on conversational and task-oriented datasets.
+
+RLHF:
+Reinforcement Learning from Human Feedback.
+
+Humans rank outputs to guide model behavior.
+
+Modern AI engineering combines:
+- mathematics
+- systems design
+- GPU programming
+- distributed computing
+- optimization theory
+- information theory
+- software architecture
+- statistical modeling
