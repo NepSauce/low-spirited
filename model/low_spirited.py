@@ -13,7 +13,15 @@ class LowSpiritedModel(nn.Module):
         self.lm_head = nn.Linear(embed_dim, vocab_size)
     
     def forward(self, idx, targets=None):
+        B, T = idx.shape
         x = self.embedding(idx)
+        k = self.key(x)
+        q = self.query(x)
+        v = self.value(x)
+
+        attn_scores = q @ k.transpose(-2, -1)
+        attn_scores = attn_scores / (k.shape[-1] ** 0.5)
+        
         logits = self.lm_head(x)
 
         loss = None
