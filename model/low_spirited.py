@@ -13,7 +13,7 @@ class LowSpiritedModel(nn.Module):
         self.lm_head = nn.Linear(embed_dim, vocab_size)
     
     def forward(self, idx, targets=None):
-        B, T = idx.shape
+        B, T, C = idx.shape
         x = self.embedding(idx)
         k = self.key(x)
         q = self.query(x)
@@ -21,8 +21,14 @@ class LowSpiritedModel(nn.Module):
 
         attn_scores = q @ k.transpose(-2, -1)
         attn_scores = attn_scores / (k.shape[-1] ** 0.5)
-        
-        logits = self.lm_head(x)
+
+        # Causal masking
+        mask = torch.tril(torch.ones(T, T, device=x.device))
+        attn_scores = attn_scores.masked_fill(mask == 0, float('-inf'))
+        attn_weights = F.softmax(attn_scores, dim=-1)
+
+        out = attn_weights @ v
+        logits = self.lm_head(out)
 
         loss = None
 
@@ -34,7 +40,5 @@ class LowSpiritedModel(nn.Module):
 
             loss_fn = nn.CrossEntropyLoss()
             loss = loss_fn(logits, targets)
-
-
 
         return logits, loss
