@@ -43,18 +43,43 @@ class MultiHeadAttention(nn.Module):
         # Final projection
         return self.proj(out)
 
+class Block(nn.Module):
+    def __init__(self, embed_dim, num_heads):
+        super().__init__()
 
+        # Multi-head self attention
+        self.attn = MultiHeadAttention(embed_dim, num_heads)
+
+        # Layer normalization stabilizes activations
+        self.ln1 = nn.LayerNorm(embed_dim)
+        self.ln2 = nn.LayerNorm(embed_dim)
+
+        # Feedforward network
+        self.ff = nn.Sequential(
+            nn.Linear(embed_dim, 4 * embed_dim),
+            nn.ReLU(),
+            nn.Linear(4 * embed_dim, embed_dim)
+        )
+
+    def forward(self, x):
+        # Residual connection around attention
+        #
+        # x = old information
+        # attn(...) = new contextual information
+        x = x + self.attn(self.ln1(x))
+
+        # Residual connection around feedforward
+        x = x + self.ff(self.ln2(x))
+
+        return x
 
 
 class LowSpiritedModel(nn.Module):
-    def __init__(self, vocab_size, embed_dim):
+    def __init__(self, vocab_size, embed_dim, num_heads):
         super().__init__()
 
         self.embedding = nn.Embedding(vocab_size, embed_dim)
-        self.key = nn.Linear(embed_dim, embed_dim, bias=False)
-        self.query = nn.Linear(embed_dim, embed_dim, bias=False)
-        self.value = nn.Linear(embed_dim, embed_dim, bias=False)
-        self.lm_head = nn.Linear(embed_dim, vocab_size)
+        self.block = Block(embed_dim, num_heads)
     
     def forward(self, idx, targets=None):
         B, T, C = idx.shape
