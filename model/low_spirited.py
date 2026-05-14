@@ -15,7 +15,7 @@ class MultiHeadAttention(nn.Module):
         self.query = nn.Linear(embed_dim, embed_dim, bias=False)
         self.value = nn.Linear(embed_dim, embed_dim, bias=False)
 
-        self.proj = nn.Linear(embed_dim)
+        self.proj = nn.Linear(embed_dim, embed_dim)
 
     def forward(self, x):
         B, T, C = x.shape
@@ -80,24 +80,14 @@ class LowSpiritedModel(nn.Module):
 
         self.embedding = nn.Embedding(vocab_size, embed_dim)
         self.block = Block(embed_dim, num_heads)
+        self.lm_head = nn.Linear(embed_dim, vocab_size)
     
     def forward(self, idx, targets=None):
-        B, T, C = idx.shape
+        B, T = idx.shape
         x = self.embedding(idx)
-        k = self.key(x)
-        q = self.query(x)
-        v = self.value(x)
-
-        attn_scores = q @ k.transpose(-2, -1)
-        attn_scores = attn_scores / (k.shape[-1] ** 0.5)
-
-        # Causal masking
-        mask = torch.tril(torch.ones(T, T, device=x.device))
-        attn_scores = attn_scores.masked_fill(mask == 0, float('-inf'))
-        attn_weights = F.softmax(attn_scores, dim=-1)
-
-        out = attn_weights @ v
-        logits = self.lm_head(out)
+        x = self.block(x)
+        
+        logits = self.lm_head(x)
 
         loss = None
 
@@ -107,7 +97,6 @@ class LowSpiritedModel(nn.Module):
             logits = logits.view(B * T, C)
             targets = targets.view(B * T)
 
-            loss_fn = nn.CrossEntropyLoss()
-            loss = loss_fn(logits, targets)
+            loss = F.cross_entropy(logits, targets)
 
         return logits, loss
