@@ -2,6 +2,21 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
+class MultiHeadAttention(nn.Module):
+    def __init__(self, embed_dim, num_heads):
+        super().__init__()
+
+        assert embed_dim % num_heads == 0, "embed_dim must be divisible by num_heads"
+
+        self.num_heads = num_heads
+        self.head_dim = embed_dim // num_heads
+        
+        self.key = nn.Linear(embed_dim, embed_dim, bias=False)
+        self.query = nn.Linear(embed_dim, embed_dim, bias=False)
+        self.value = nn.Linear(embed_dim, embed_dim, bias=False)
+
+        self.proj = nn.Linear(embed_dim)
+
 class LowSpiritedModel(nn.Module):
     def __init__(self, vocab_size, embed_dim):
         super().__init__()
