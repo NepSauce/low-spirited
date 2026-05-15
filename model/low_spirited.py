@@ -81,10 +81,14 @@ class LowSpiritedModel(nn.Module):
         self.embedding = nn.Embedding(vocab_size, embed_dim)
         self.block = Block(embed_dim, num_heads)
         self.lm_head = nn.Linear(embed_dim, vocab_size)
+        self.position_embedding = nn.Embedding(1024, embed_dim)
     
     def forward(self, idx, targets=None):
         B, T = idx.shape
-        x = self.embedding(idx)
+        token_embeddings = self.embedding(idx)
+        positions = torch.arange(T, device=idx.device)
+        position_embeddings = self.position_embedding(positions)
+        x = token_embeddings + position_embeddings
         x = self.block(x)
         
         logits = self.lm_head(x)
