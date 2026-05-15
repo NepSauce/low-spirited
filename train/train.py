@@ -30,9 +30,16 @@ model = LowSpiritedModel(
     num_heads=num_heads
 ) 
 
-block_size = 8;
-x = data[:block_size]
-y = data[1:block_size+1]
+optimizer = optim.Adam(model.parameters(), lr=lr)
 
-print(x)
-print(y)
+for step in range(2000):
+    x, y = get_batch()
+
+    logits, loss = model(x, y)
+
+    optimizer.zero_grad(set_to_none=True)
+    loss.backward()
+    optimizer.step()
+
+    if step % 100 == 0:
+        print(f"Step {step}: loss = {loss.item():.4f}")
