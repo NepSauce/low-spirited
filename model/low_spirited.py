@@ -61,15 +61,15 @@ class Block(nn.Module):
             nn.Linear(4 * embed_dim, embed_dim)
         )
 
+        self.dropout = nn.Dropout(0.2)
+
     def forward(self, x):
         # Residual connection around attention
         #
         # x = old information
         # attn(...) = new contextual information
-        x = x + self.attn(self.ln1(x))
-
-        # Residual connection around feedforward
-        x = x + self.ff(self.ln2(x))
+        x = x + self.dropout(self.attn(self.ln1(x)))
+        x = x + self.dropout(self.ff(self.ln2(x)))
 
         return x
 
@@ -79,7 +79,12 @@ class LowSpiritedModel(nn.Module):
         super().__init__()
 
         self.embedding = nn.Embedding(vocab_size, embed_dim)
-        self.block = Block(embed_dim, num_heads)
+        self.blocks = nn.Sequential(
+            Block(embed_dim, num_heads),
+            Block(embed_dim, num_heads),
+            Block(embed_dim, num_heads),
+            Block(embed_dim, num_heads)
+        )
         self.lm_head = nn.Linear(embed_dim, vocab_size)
         self.position_embedding = nn.Embedding(1024, embed_dim)
     
@@ -89,7 +94,7 @@ class LowSpiritedModel(nn.Module):
         positions = torch.arange(T, device=idx.device)
         position_embeddings = self.position_embedding(positions)
         x = token_embeddings + position_embeddings
-        x = self.block(x)
+        x = self.blocks(x)
         
         logits = self.lm_head(x)
 
