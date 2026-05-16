@@ -32,7 +32,7 @@ model = LowSpiritedModel(
 
 optimizer = optim.Adam(model.parameters(), lr=lr)
 
-for step in range(2000):
+for step in range(20000):
     x, y = get_batch()
 
     logits, loss = model(x, y)
@@ -43,3 +43,8 @@ for step in range(2000):
 
     if step % 100 == 0:
         print(f"Step {step}: loss = {loss.item():.4f}")
+
+start =torch.zeros(1, 1, dtype=torch.long)
+generated = model.generate(start, max_new_tokens=300)
+
+print(tokenizer.decode(generated[0].tolist()))

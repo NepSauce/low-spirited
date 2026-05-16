@@ -61,15 +61,15 @@ class Block(nn.Module):
             nn.Linear(4 * embed_dim, embed_dim)
         )
 
+        self.dropout = nn.Dropout(0.2)
+
     def forward(self, x):
         # Residual connection around attention
         #
         # x = old information
         # attn(...) = new contextual information
-        x = x + self.attn(self.ln1(x))
-
-        # Residual connection around feedforward
-        x = x + self.ff(self.ln2(x))
+        x = x + self.dropout(self.attn(self.ln1(x)))
+        x = x + self.dropout(self.ff(self.ln2(x)))
 
         return x
 
@@ -79,13 +79,22 @@ class LowSpiritedModel(nn.Module):
         super().__init__()
 
         self.embedding = nn.Embedding(vocab_size, embed_dim)
-        self.block = Block(embed_dim, num_heads)
+        self.blocks = nn.Sequential(
+            Block(embed_dim, num_heads),
+            Block(embed_dim, num_heads),
+            Block(embed_dim, num_heads),
+            Block(embed_dim, num_heads)
+        )
         self.lm_head = nn.Linear(embed_dim, vocab_size)
+        self.position_embedding = nn.Embedding(1024, embed_dim)
     
     def forward(self, idx, targets=None):
         B, T = idx.shape
-        x = self.embedding(idx)
-        x = self.block(x)
+        token_embeddings = self.embedding(idx)
+        positions = torch.arange(T, device=idx.device)
+        position_embeddings = self.position_embedding(positions)
+        x = token_embeddings + position_embeddings
+        x = self.blocks(x)
         
         logits = self.lm_head(x)
 
@@ -100,3 +109,21 @@ class LowSpiritedModel(nn.Module):
             loss = F.cross_entropy(logits, targets)
 
         return logits, loss
+    
+    def generate(self, idx, max_new_tokens, temperature=1.0, top_k=20):
+        for _ in range(max_new_tokens):
+            idx_cond = idx[:, -512:]
+            logits, _ = self(idx_cond)
+            # Focus on the last time step
+            logits = logits[:, -1, :]
+            logits = logits / temperature
+            # keep only top-k logits
+            v, _ = torch.topk(logits, top_k)
+            # everything below kth value becomes -inf
+            logits[logits < v[:, [-1]]] = float('-inf')
+            # convert to probabilities
+            probs = F.softmax(logits, dim=-1)
+            idx_next = torch.multinomial(probs, num_samples=1)
+            idx = torch.cat((idx, idx_next), dim=1)
+
+        return idx
