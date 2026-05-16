@@ -110,13 +110,18 @@ class LowSpiritedModel(nn.Module):
 
         return logits, loss
     
-    def generate(self, idx, max_new_tokens):
+    def generate(self, idx, max_new_tokens, temperature=1.0, top_k=20):
         for _ in range(max_new_tokens):
             idx_cond = idx[:, -512:]
             logits, _ = self(idx_cond)
-
             # Focus on the last time step
             logits = logits[:, -1, :]
+            logits = logits / temperature
+            # keep only top-k logits
+            v, _ = torch.topk(logits, top_k)
+            # everything below kth value becomes -inf
+            logits[logits < v[:, [-1]]] = float('-inf')
+            # convert to probabilities
             probs = F.softmax(logits, dim=-1)
             idx_next = torch.multinomial(probs, num_samples=1)
             idx = torch.cat((idx, idx_next), dim=1)
