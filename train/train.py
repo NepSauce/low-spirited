@@ -32,7 +32,7 @@ model = LowSpiritedModel(
 
 optimizer = optim.Adam(model.parameters(), lr=lr)
 
-for step in range(2000):
+for step in range(20000):
     x, y = get_batch()
 
     logits, loss = model(x, y)
